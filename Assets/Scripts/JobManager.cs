@@ -19,7 +19,7 @@ public class JobManager : MonoBehaviour
     // private variables
     private int completedResumes = 0;
     private int completedCoverLetters = 0;
-    private int completedApplications = 0;
+    private List<Application> listOfApplications = new List<Application>();
 
     // helper variables
     private int resumeCounter = 0;
@@ -63,20 +63,32 @@ public class JobManager : MonoBehaviour
             UpdateText();
         }
     }
+    public void SendOutOne()
+    {
+        if (completedResumes < 1 || completedCoverLetters < 1) { return; }
+        completedResumes -= 1; completedCoverLetters -= 1;
+        listOfApplications.Add(new Application());
+        UpdateText();
+    }
+    /*
     public void SendOutAll()
     {
         int applications = System.Math.Min(completedResumes, completedCoverLetters);
         completedResumes -= applications; completedCoverLetters -= applications;
-        completedApplications += applications;
+        for (int i = 1; i <= applications; i++)
+        {
+            listOfApplications.Add(new Application());
+        }
         UpdateText();
     }
+    */
 
     // helper methods
     private void UpdateText()
     {
         textBox1.text = string.Format("Resumes: {0}", completedResumes);
         textBox2.text = string.Format("Cover Letters: {0}", completedCoverLetters);
-        textBox3.text = string.Format("Applications: {0}", completedApplications);
+        textBox3.text = string.Format("Applications: {0}", Application.SubmittedApplicationCounter);
     }
 
 }

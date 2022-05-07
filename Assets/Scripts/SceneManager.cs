@@ -64,7 +64,7 @@ public class SceneManager : MonoBehaviour
                 break;
             case 2: // mail
                 ahri.Shake();
-                JobManager.Instance.SendOutAll();
+                JobManager.Instance.SendOutOne();
                 break;
             default:
                 break;
