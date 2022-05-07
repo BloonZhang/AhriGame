@@ -78,7 +78,7 @@ public class Application
         onlineCompleted = false;
         applicationFinished = false;
         SubmittedApplicationCounter++;
-        Debug.Log(companyName);
+        //Debug.Log(companyName);
     }
 
     // public variables

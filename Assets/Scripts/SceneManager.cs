@@ -86,4 +86,8 @@ public class SceneManager : MonoBehaviour
     {
 
     }
+    public void HeldEAction(float deltaTime)
+    {
+
+    }
 }
