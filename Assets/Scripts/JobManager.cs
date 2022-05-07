@@ -10,7 +10,7 @@ public class JobManager : MonoBehaviour
     
     public TextMeshProUGUI textBox1;
     public TextMeshProUGUI textBox2;
-    
+    public TextMeshProUGUI textBox3;
 
     // public variables and fields
     public int CompletedResumes { get { return completedResumes; } }
@@ -19,6 +19,7 @@ public class JobManager : MonoBehaviour
     // private variables
     private int completedResumes = 0;
     private int completedCoverLetters = 0;
+    private int completedApplications = 0;
 
     // helper variables
     private int resumeCounter = 0;
@@ -49,7 +50,7 @@ public class JobManager : MonoBehaviour
         {
             completedResumes++;
             resumeCounter = 0;
-            textBox1.text = string.Format("Resumes: {0}", completedResumes);
+            UpdateText();
         }
     }
     public void WorkOnCoverLetter()
@@ -59,8 +60,23 @@ public class JobManager : MonoBehaviour
         {
             completedCoverLetters++;
             coverLetterCounter = 0;
-            textBox2.text = string.Format("Cover Letters: {0}", completedCoverLetters);
+            UpdateText();
         }
+    }
+    public void SendOutAll()
+    {
+        int applications = System.Math.Min(completedResumes, completedCoverLetters);
+        completedResumes -= applications; completedCoverLetters -= applications;
+        completedApplications += applications;
+        UpdateText();
+    }
+
+    // helper methods
+    private void UpdateText()
+    {
+        textBox1.text = string.Format("Resumes: {0}", completedResumes);
+        textBox2.text = string.Format("Cover Letters: {0}", completedCoverLetters);
+        textBox3.text = string.Format("Applications: {0}", completedApplications);
     }
 
 }

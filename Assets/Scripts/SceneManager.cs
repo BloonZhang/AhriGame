@@ -62,6 +62,10 @@ public class SceneManager : MonoBehaviour
                 ahri.Shake();
                 JobManager.Instance.WorkOnResume();
                 break;
+            case 2: // mail
+                ahri.Shake();
+                JobManager.Instance.SendOutAll();
+                break;
             default:
                 break;
         }
