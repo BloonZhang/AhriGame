@@ -34,54 +34,60 @@ public class InputManager : MonoBehaviour
         // Holds
         if (inputLock == 'e' && Input.GetKey("e")) { InputEHeld(); }
 
-        // Note: elseif logic to prevent multiple inputs from being counted in the same frame
-        // Key downs
-        if (inputLock == ' ')
-        {
-            if (Input.GetKeyDown("1")) { Input1(); inputLock = '1'; }
-            else if (Input.GetKeyDown("2")) { Input2(); inputLock = '2'; }
-            else if (Input.GetKeyDown("3")) { Input3(); inputLock = '3'; }
-            else if (Input.GetKeyDown("q")) { InputQ(); inputLock = 'q'; }
-            else if (Input.GetKeyDown("w")) { InputW(); inputLock = 'w'; }
-            else if (Input.GetKeyDown("e")) { InputE(); inputLock = 'e'; }
-        }
-
         // Key ups
+        // Note: this is before key downs, so if player releases and presses key in the same frame, it will work
         if (Input.GetKeyUp("1")) { if (inputLock == '1') { inputLock = ' '; } }
         if (Input.GetKeyUp("2")) { if (inputLock == '2') { inputLock = ' '; } }
         if (Input.GetKeyUp("3")) { if (inputLock == '3') { inputLock = ' '; } }
         if (Input.GetKeyUp("q")) { if (inputLock == 'q') { inputLock = ' '; } }
         if (Input.GetKeyUp("w")) { if (inputLock == 'w') { inputLock = ' '; } }
-        if (Input.GetKeyUp("e")) { if (inputLock == 'e') { inputLock = ' '; } }
+        if (Input.GetKeyUp("e")) { if (inputLock == 'e') { InputEUp(); inputLock = ' '; } }
+
+        // Key downs
+        // Note: elseif logic to prevent multiple inputs from being counted in the same frame
+        if (inputLock == ' ')
+        {
+            if (Input.GetKeyDown("1")) { Input1Down(); inputLock = '1'; }
+            else if (Input.GetKeyDown("2")) { Input2Down(); inputLock = '2'; }
+            else if (Input.GetKeyDown("3")) { Input3Down(); inputLock = '3'; }
+            else if (Input.GetKeyDown("q")) { InputQDown(); inputLock = 'q'; }
+            else if (Input.GetKeyDown("w")) { InputWDown(); inputLock = 'w'; }
+            else if (Input.GetKeyDown("e")) { InputEDown(); inputLock = 'e'; }
+        }
+
     }
 
     // input methods
-    void Input1()
+    void Input1Down()
     {
         SceneManager.Instance.MoveAhriToLocation(0);
     }
-    void Input2()
+    void Input2Down()
     {
         SceneManager.Instance.MoveAhriToLocation(1);
     }
-    void Input3()
+    void Input3Down()
     {
         SceneManager.Instance.MoveAhriToLocation(2);
     }
-    void InputQ()
+    void InputQDown()
     {
         SceneManager.Instance.PerformQAction();
     }
-    void InputW()
+    void InputWDown()
     {
         SceneManager.Instance.PerformWAction(); 
     }
-    void InputE()
+    void InputEDown()
     {
         SceneManager.Instance.PerformEAction();
     }
     void InputEHeld()
     {
         SceneManager.Instance.HeldEAction(Time.deltaTime);
+    }
+    void InputEUp()
+    {
+        SceneManager.Instance.ReleaseEAction();
     }
 }

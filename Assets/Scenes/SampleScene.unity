@@ -329,6 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textBox1: {fileID: 2079328859}
   textBox2: {fileID: 376250842}
+  textBox3: {fileID: 1208473}
 --- !u!1 &376250840
 GameObject:
   m_ObjectHideFlags: 0

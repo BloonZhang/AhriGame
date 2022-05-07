@@ -43,6 +43,11 @@ public class SceneManager : MonoBehaviour
         else {_instance = this;}
     }
 
+    void Start()
+    {
+        MoveAhriToLocation(0);
+    }
+
     // Methods called from InputManager
     public void MoveAhriToLocation(int location)
     {
@@ -84,10 +89,34 @@ public class SceneManager : MonoBehaviour
     }
     public void PerformEAction()
     {
-
+        switch (ahriCurrentLocation)
+        {
+            case 0: // desk
+                ahri.Dip();
+                break;
+            default:
+                break;
+        }
     }
     public void HeldEAction(float deltaTime)
     {
-
+        switch (ahriCurrentLocation)
+        {
+            case 0: // desk
+                break;
+            default:
+                break;
+        }
+    }
+    public void ReleaseEAction()
+    {
+        switch (ahriCurrentLocation)
+        {
+            case 0: // desk
+                ahri.Return();
+                break;
+            default:
+                break;
+        }
     }
 }

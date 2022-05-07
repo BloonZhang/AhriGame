@@ -30,6 +30,21 @@ public class AhriController : MonoBehaviour
         this.gameObject.transform.position = shakeOriginLocation;
         StartCoroutine(ShakeCoroutine());
     }
+    public void Dip()
+    {
+        StopAllCoroutines();
+        this.gameObject.transform.position = shakeOriginLocation;
+        StartCoroutine(DipCoroutine());
+    }
+    public void Return()
+    {
+        StopAllCoroutines();
+        this.gameObject.transform.position = new Vector3(
+                                                    shakeOriginLocation.x, 
+                                                    shakeOriginLocation.y - shakeDistance, 
+                                                    shakeOriginLocation.z);
+        StartCoroutine(ReturnCoroutine());
+    }
 
     // helper methods
     private void Reset()
@@ -40,6 +55,11 @@ public class AhriController : MonoBehaviour
     // Couroutines
     IEnumerator ShakeCoroutine()
     {
+        yield return StartCoroutine(DipCoroutine());
+        yield return StartCoroutine(ReturnCoroutine());
+    }
+    IEnumerator DipCoroutine()
+    {
         float movementInterval = shakeDistance / 10f;
         for (int i = 0; i < 10; i++)
         {
@@ -49,6 +69,10 @@ public class AhriController : MonoBehaviour
                                                         this.gameObject.transform.position.z);
             yield return new WaitForSeconds((shakeTime/2f) / 10f);
         }
+    }
+    IEnumerator ReturnCoroutine()
+    {
+        float movementInterval = shakeDistance / 10f;
         for (int i = 0; i < 10; i++)
         {
             this.gameObject.transform.position = new Vector3(
