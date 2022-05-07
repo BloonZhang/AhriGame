@@ -29,6 +29,9 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown("1")) { Input1(); }
         if (Input.GetKeyDown("2")) { Input2(); }
         if (Input.GetKeyDown("3")) { Input3(); }
+        if (Input.GetKeyDown("q")) { InputQ(); }
+        if (Input.GetKeyDown("w")) { InputW(); }
+        if (Input.GetKeyDown("e")) { InputE(); }
     }
 
     // input methods
@@ -43,5 +46,17 @@ public class InputManager : MonoBehaviour
     void Input3()
     {
         SceneManager.Instance.MoveAhriToLocation(2);
+    }
+    void InputQ()
+    {
+        SceneManager.Instance.PerformQAction();
+    }
+    void InputW()
+    {
+        SceneManager.Instance.PerformWAction(); 
+    }
+    void InputE()
+    {
+        SceneManager.Instance.PerformEAction();
     }
 }

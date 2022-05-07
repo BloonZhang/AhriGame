@@ -1,12 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SceneManager : MonoBehaviour
 {
 
+    // test gameobjects
+    /*
+    public TextMeshProUGUI textBox1;
+    private int counter1 = 0;
+    public TextMeshProUGUI textBox2;
+    private int counter2 = 0;
+    public TextMeshProUGUI textBox3;
+    private int counter3 = 0;
+    */
+
     // public GameObjects
     public AhriController ahri;
+
+    // helper variables
+    private int ahriCurrentLocation = 0;
 
     // settings variables
     private Vector3[] ahriPositions = 
@@ -14,7 +28,7 @@ public class SceneManager : MonoBehaviour
         {
             new Vector3(-5f, -1f, 0f),
             new Vector3(-2.5f, -1f, 0f),
-            new Vector3(0f, -1f, 0f)
+            new Vector3(5f, -1f, 0f)
         };
 
 
@@ -30,6 +44,7 @@ public class SceneManager : MonoBehaviour
         else {_instance = this;}
     }
 
+    // Methods called from InputManager
     public void MoveAhriToLocation(int location)
     {
         if (location > ahriPositions.Length)
@@ -38,6 +53,18 @@ public class SceneManager : MonoBehaviour
             return;
         }
         ahri.MoveToPosition(ahriPositions[location]);
+        ahriCurrentLocation = location;
     }
+    public void PerformQAction()
+    {
+        ahri.Shake();
+    }
+    public void PerformWAction()
+    {
 
+    }
+    public void PerformEAction()
+    {
+
+    }
 }
