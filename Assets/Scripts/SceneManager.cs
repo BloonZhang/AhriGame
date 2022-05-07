@@ -31,7 +31,6 @@ public class SceneManager : MonoBehaviour
             new Vector3(5f, -1f, 0f)
         };
 
-
     //////// Singleton shenanigans ////////
     private static SceneManager _instance;
     public static SceneManager Instance { get {return _instance;} }
@@ -57,11 +56,27 @@ public class SceneManager : MonoBehaviour
     }
     public void PerformQAction()
     {
-        ahri.Shake();
+        switch (ahriCurrentLocation)
+        {
+            case 0: // desk
+                ahri.Shake();
+                JobManager.Instance.WorkOnResume();
+                break;
+            default:
+                break;
+        }
     }
     public void PerformWAction()
     {
-
+        switch (ahriCurrentLocation)
+        {
+            case 0: // desk
+                ahri.Shake();
+                JobManager.Instance.WorkOnCoverLetter();
+                break;
+            default:
+                break;
+        }
     }
     public void PerformEAction()
     {

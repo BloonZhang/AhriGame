@@ -27,11 +27,11 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown("1")) { Input1(); }
-        if (Input.GetKeyDown("2")) { Input2(); }
-        if (Input.GetKeyDown("3")) { Input3(); }
+        else if (Input.GetKeyDown("2")) { Input2(); }
+        else if (Input.GetKeyDown("3")) { Input3(); }
         if (Input.GetKeyDown("q")) { InputQ(); }
-        if (Input.GetKeyDown("w")) { InputW(); }
-        if (Input.GetKeyDown("e")) { InputE(); }
+        else if (Input.GetKeyDown("w")) { InputW(); }
+        else if (Input.GetKeyDown("e")) { InputE(); }
     }
 
     // input methods
