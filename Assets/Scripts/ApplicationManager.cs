@@ -7,8 +7,9 @@ public class ApplicationManager : MonoBehaviour
 {
 
     // events
-    public event Action<Application> PhoneInterviewReady;
-    public event Action<Application> OnlineInterviewReady;
+    public event Action<Application> PhoneInterviewReadyEvent;
+    public event Action<Application> OnlineInterviewReadyEvent;
+    public event Action<Application> ApplicationFinishedEvent;
 
     // public variables
     public List<Application> listOfApplications = new List<Application>();
@@ -16,9 +17,12 @@ public class ApplicationManager : MonoBehaviour
     // settings variables
     private float timeUntilPhoneMin = 1f;
     private float timeUntilPhoneMax = 1.5f;
-    private float timeUntilOnlineMin = 20f;
-    private float timeUntilOnlineMax = 30f;
+    private float timeUntilOnlineMin = 2f;
+    private float timeUntilOnlineMax = 3f;
+    private float timeUntilReviewMin = 5f;
+    private float timeUntilReviewMax = 6f;
     private int ApplicationsForGameOver = 35;
+    private string companyOfChoice = "Riot Games, Inc.";
     private List<string> PotentialCompanyNames = new List<string>()
     {
         "Stallmart, Inc.",
@@ -85,11 +89,11 @@ public class ApplicationManager : MonoBehaviour
     }
 
     // public methods
-    public void CreateApplication()
+    public Application CreateApplication()
     {
         string companyName;
         // If it's time for the game to end
-        if (SubmittedApplicationCounter == ApplicationsForGameOver) { companyName = "Riot Games, Inc."; }
+        if (SubmittedApplicationCounter == ApplicationsForGameOver) { companyName = companyOfChoice; }
         // Otherwise, create a random name
         else 
         {
@@ -101,7 +105,7 @@ public class ApplicationManager : MonoBehaviour
         }
         Application newApplication = new Application(companyName);
         listOfApplications.Add(newApplication); SubmittedApplicationCounter++;
-        SendForPhoneInterview(newApplication);
+        return newApplication;
     }
     public void SendForPhoneInterview(Application application)
     {
@@ -111,21 +115,23 @@ public class ApplicationManager : MonoBehaviour
     {
         StartCoroutine(WaitForOnlineCoroutine(application));
     }
+    public void SendForReview(Application application)
+    {
+        StartCoroutine(WaitForReview(application));
+    }
 
     // private methods
     private void BroadcastPhoneInterviewReady(Application application)
     {
-        if (PhoneInterviewReady != null)
-        {
-            PhoneInterviewReady.Invoke(application);
-        }
+        if (PhoneInterviewReadyEvent != null) { PhoneInterviewReadyEvent.Invoke(application); }
     }
     private void BroadcastOnlineInterviewReady(Application application)
     {
-        if (OnlineInterviewReady != null)
-        {
-            OnlineInterviewReady.Invoke(application);
-        }
+        if (OnlineInterviewReadyEvent != null) { OnlineInterviewReadyEvent.Invoke(application); }
+    }
+    private void BroadcastApplicationFinished(Application application)
+    {
+        if (ApplicationFinishedEvent != null) { ApplicationFinishedEvent.Invoke(application); }
     }
 
     // helper methods
@@ -142,11 +148,20 @@ public class ApplicationManager : MonoBehaviour
     IEnumerator WaitForPhoneCoroutine(Application application)
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(timeUntilPhoneMin, timeUntilPhoneMax));
-        application.CompletePhoneInterview(); BroadcastPhoneInterviewReady(application);
+        application.CompletePhoneInterview(); 
+        BroadcastPhoneInterviewReady(application);
     }
     IEnumerator WaitForOnlineCoroutine(Application application)
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(timeUntilOnlineMin, timeUntilOnlineMax));
-        application.CompleteOnlineInterview(); BroadcastOnlineInterviewReady(application);
+        application.CompleteOnlineInterview(); 
+        BroadcastOnlineInterviewReady(application);
+    }
+    IEnumerator WaitForReview(Application application)
+    {
+        yield return new WaitForSeconds(UnityEngine.Random.Range(timeUntilReviewMin, timeUntilReviewMax));
+        if (application.companyName == companyOfChoice) { application.Accept(); }
+        else { application.Reject(); }
+        BroadcastApplicationFinished(application);
     }
 }

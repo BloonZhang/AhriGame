@@ -9,6 +9,7 @@ public class Application
     public Application(string name)
     {
         companyName = name;
+        accepted = false;
         /*
         phoneCompleted = false;
         onlineCompleted = false;
@@ -18,6 +19,7 @@ public class Application
 
     // public variables
     public string companyName;
+    public bool accepted;
     // private variables
     /*
     private bool phoneCompleted;
@@ -33,5 +35,13 @@ public class Application
     public void CompleteOnlineInterview()
     {
         //onlineCompleted = true;
+    }
+    public void Reject()
+    {
+
+    }
+    public void Accept()
+    {
+        accepted = true;
     }
 }

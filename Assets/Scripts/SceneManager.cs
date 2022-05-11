@@ -92,6 +92,11 @@ public class SceneManager : MonoBehaviour
         switch (ahriCurrentLocation)
         {
             case 0: // desk
+                JobManager.Instance.PickUpOnline();
+                ahri.Dip();
+                break;
+            case 1: // phone
+                JobManager.Instance.PickUpPhone();
                 ahri.Dip();
                 break;
             default:
@@ -103,6 +108,10 @@ public class SceneManager : MonoBehaviour
         switch (ahriCurrentLocation)
         {
             case 0: // desk
+                JobManager.Instance.RespondToOnline(deltaTime);
+                break;
+            case 1: // phone
+                JobManager.Instance.RespondToPhone(deltaTime);
                 break;
             default:
                 break;
@@ -113,6 +122,11 @@ public class SceneManager : MonoBehaviour
         switch (ahriCurrentLocation)
         {
             case 0: // desk
+                JobManager.Instance.HangUpOnline();
+                ahri.Return();
+                break;
+            case 1: // phone
+                JobManager.Instance.HangUpPhone();
                 ahri.Return();
                 break;
             default:
