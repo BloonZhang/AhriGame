@@ -11,6 +11,9 @@ public class JobManager : MonoBehaviour
     public TextMeshProUGUI textBox2;
     public TextMeshProUGUI textBox3;
 
+    // public GameObjects
+    public TelephoneController phone;
+
     // public variables and fields
     //public int CompletedResumes { get { return completedResumes; } }
     //public int CompletedCoverLetters { get { return completedCoverLetters; } }
@@ -35,21 +38,22 @@ public class JobManager : MonoBehaviour
     public static JobManager Instance { get {return _instance;} }
     //////// Singleton shenanigans continue in Awake() ////
 
+    // Unity methods
     void OnEnable()
     {
         ApplicationManager.Instance.PhoneInterviewReady += AddApplicationToPhoneQueue;
         ApplicationManager.Instance.OnlineInterviewReady += AddApplicationToOnlineQueue;
+    }
+    void OnDisable()
+    {
+        ApplicationManager.Instance.PhoneInterviewReady -= AddApplicationToPhoneQueue;
+        ApplicationManager.Instance.OnlineInterviewReady -= AddApplicationToOnlineQueue;
     }
     void Awake()
     {
         // Singleton shenanigans
         if (_instance != null && _instance != this) {Destroy(this.gameObject);} // no duplicates
         else {_instance = this;}
-    }
-    void OnDisable()
-    {
-        ApplicationManager.Instance.PhoneInterviewReady -= AddApplicationToPhoneQueue;
-        ApplicationManager.Instance.OnlineInterviewReady -= AddApplicationToOnlineQueue;
     }
 
     // public methods
@@ -97,6 +101,7 @@ public class JobManager : MonoBehaviour
     private void AddApplicationToPhoneQueue(Application application)
     {
         phoneQueue.Add(application);
+        phone.SetIncomingCall(true);
     }
     private void AddApplicationToOnlineQueue(Application application)
     {
