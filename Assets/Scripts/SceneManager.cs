@@ -6,21 +6,11 @@ using TMPro;
 public class SceneManager : MonoBehaviour
 {
 
-    // test gameobjects
-    /*
-    public TextMeshProUGUI textBox1;
-    private int counter1 = 0;
-    public TextMeshProUGUI textBox2;
-    private int counter2 = 0;
-    public TextMeshProUGUI textBox3;
-    private int counter3 = 0;
-    */
-
     // public GameObjects
     public AhriController ahri;
 
-    // helper variables
-    private int ahriCurrentLocation = 0;
+    // public variables
+    public int ahriCurrentLocation = 0;
 
     // settings variables
     private Vector3[] ahriPositions = 
@@ -59,78 +49,7 @@ public class SceneManager : MonoBehaviour
         ahri.MoveToPosition(ahriPositions[location]);
         ahriCurrentLocation = location;
     }
-    public void PerformQAction()
-    {
-        switch (ahriCurrentLocation)
-        {
-            case 0: // desk
-                ahri.Shake();
-                JobManager.Instance.WorkOnResume();
-                break;
-            case 2: // mail
-                ahri.Shake();
-                JobManager.Instance.SendOutOne();
-                break;
-            default:
-                break;
-        }
-    }
-    public void PerformWAction()
-    {
-        switch (ahriCurrentLocation)
-        {
-            case 0: // desk
-                ahri.Shake();
-                JobManager.Instance.WorkOnCoverLetter();
-                break;
-            default:
-                break;
-        }
-    }
-    public void PerformEAction()
-    {
-        switch (ahriCurrentLocation)
-        {
-            case 0: // desk
-                JobManager.Instance.PickUpOnline();
-                ahri.Dip();
-                break;
-            case 1: // phone
-                JobManager.Instance.PickUpPhone();
-                ahri.Dip();
-                break;
-            default:
-                break;
-        }
-    }
-    public void HeldEAction(float deltaTime)
-    {
-        switch (ahriCurrentLocation)
-        {
-            case 0: // desk
-                JobManager.Instance.RespondToOnline(deltaTime);
-                break;
-            case 1: // phone
-                JobManager.Instance.RespondToPhone(deltaTime);
-                break;
-            default:
-                break;
-        }
-    }
-    public void ReleaseEAction()
-    {
-        switch (ahriCurrentLocation)
-        {
-            case 0: // desk
-                JobManager.Instance.HangUpOnline();
-                ahri.Return();
-                break;
-            case 1: // phone
-                JobManager.Instance.HangUpPhone();
-                ahri.Return();
-                break;
-            default:
-                break;
-        }
-    }
+    public void ShakeAhri() { ahri.Shake(); }
+    public void DipAhri() { ahri.Dip(); }
+    public void ReturnAhri() { ahri.Return(); }
 }

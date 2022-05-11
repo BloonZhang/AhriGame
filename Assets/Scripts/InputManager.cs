@@ -72,22 +72,88 @@ public class InputManager : MonoBehaviour
     }
     void InputQDown()
     {
-        SceneManager.Instance.PerformQAction();
+        switch (SceneManager.Instance.ahriCurrentLocation)
+        {
+            case 0: // desk
+                SceneManager.Instance.ShakeAhri();
+                JobManager.Instance.WorkOnResume();
+                break;
+            case 1: // phone
+                break;
+            case 2: // mail
+                SceneManager.Instance.ShakeAhri();
+                JobManager.Instance.SendOutOne();
+                break;
+            default:
+                break;
+        }
     }
     void InputWDown()
     {
-        SceneManager.Instance.PerformWAction(); 
+        switch (SceneManager.Instance.ahriCurrentLocation)
+        {
+            case 0: // desk
+                SceneManager.Instance.ShakeAhri();
+                JobManager.Instance.WorkOnCoverLetter();
+                break;
+            case 1: // phone
+                break;
+            case 2: // mail
+                break;
+            default:
+                break;
+        }
     }
     void InputEDown()
     {
-        SceneManager.Instance.PerformEAction();
+        switch (SceneManager.Instance.ahriCurrentLocation)
+        {
+            case 0: // desk
+                JobManager.Instance.PickUpOnline();
+                SceneManager.Instance.DipAhri();
+                break;
+            case 1: // phone
+                JobManager.Instance.PickUpPhone();
+                SceneManager.Instance.DipAhri();
+                break;
+            case 2: // mail
+                break;
+            default:
+                break;
+        }
     }
     void InputEHeld()
     {
-        SceneManager.Instance.HeldEAction(Time.deltaTime);
+        switch (SceneManager.Instance.ahriCurrentLocation)
+        {
+            case 0: // desk
+                JobManager.Instance.RespondToOnline(Time.deltaTime);
+                break;
+            case 1: // phone
+                JobManager.Instance.RespondToPhone(Time.deltaTime);
+                break;
+            case 2: // mail
+                break;
+            default:
+                break;
+        }
     }
     void InputEUp()
     {
-        SceneManager.Instance.ReleaseEAction();
+        switch (SceneManager.Instance.ahriCurrentLocation)
+        {
+            case 0: // desk
+                JobManager.Instance.HangUpOnline();
+                SceneManager.Instance.ReturnAhri();
+                break;
+            case 1: // phone
+                JobManager.Instance.HangUpPhone();
+                SceneManager.Instance.ReturnAhri();
+                break;
+            case 2: // mail
+                break;
+            default:
+                break;
+        }
     }
 }
