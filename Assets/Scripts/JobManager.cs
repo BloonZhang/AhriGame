@@ -7,19 +7,19 @@ public class JobManager : MonoBehaviour
 {
 
     // test gameobjects
-    
     public TextMeshProUGUI textBox1;
     public TextMeshProUGUI textBox2;
     public TextMeshProUGUI textBox3;
 
     // public variables and fields
-    public int CompletedResumes { get { return completedResumes; } }
-    public int CompletedCoverLetters { get { return completedCoverLetters; } }
+    //public int CompletedResumes { get { return completedResumes; } }
+    //public int CompletedCoverLetters { get { return completedCoverLetters; } }
 
     // private variables
     private int completedResumes = 0;
     private int completedCoverLetters = 0;
-    private List<Application> listOfApplications = new List<Application>();
+    private List<Application> phoneQueue = new List<Application>();
+    private List<Application> onlineQueue = new List<Application>();
 
     // helper variables
     private int resumeCounter = 0;
@@ -35,11 +35,21 @@ public class JobManager : MonoBehaviour
     public static JobManager Instance { get {return _instance;} }
     //////// Singleton shenanigans continue in Awake() ////
 
+    void OnEnable()
+    {
+        ApplicationManager.Instance.PhoneInterviewReady += AddApplicationToPhoneQueue;
+        ApplicationManager.Instance.OnlineInterviewReady += AddApplicationToOnlineQueue;
+    }
     void Awake()
     {
         // Singleton shenanigans
         if (_instance != null && _instance != this) {Destroy(this.gameObject);} // no duplicates
         else {_instance = this;}
+    }
+    void OnDisable()
+    {
+        ApplicationManager.Instance.PhoneInterviewReady -= AddApplicationToPhoneQueue;
+        ApplicationManager.Instance.OnlineInterviewReady -= AddApplicationToOnlineQueue;
     }
 
     // public methods
@@ -67,7 +77,7 @@ public class JobManager : MonoBehaviour
     {
         if (completedResumes < 1 || completedCoverLetters < 1) { return; }
         completedResumes -= 1; completedCoverLetters -= 1;
-        listOfApplications.Add(new Application());
+        ApplicationManager.Instance.CreateApplication();
         UpdateText();
     }
     /*
@@ -83,12 +93,22 @@ public class JobManager : MonoBehaviour
     }
     */
 
+    // private methods
+    private void AddApplicationToPhoneQueue(Application application)
+    {
+        phoneQueue.Add(application);
+    }
+    private void AddApplicationToOnlineQueue(Application application)
+    {
+        onlineQueue.Add(application);
+    }
+
     // helper methods
     private void UpdateText()
     {
         textBox1.text = string.Format("Resumes: {0}", completedResumes);
         textBox2.text = string.Format("Cover Letters: {0}", completedCoverLetters);
-        textBox3.text = string.Format("Applications: {0}", Application.SubmittedApplicationCounter);
+        textBox3.text = string.Format("Applications: {0}", ApplicationManager.Instance.SubmittedApplicationCounter);
     }
 
 }
